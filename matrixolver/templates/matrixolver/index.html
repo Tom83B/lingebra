@@ -1,0 +1,54 @@
+{% load staticfiles %}
+
+<link rel='stylesheet' type='text/css' href='{% static "matrixolver/style.css" %}'>
+
+
+
+<div class='css_size'>
+<form action='{% url "matrixolver:get_size" %}' method='POST'>{% csrf_token %}
+	<label for='rows'>Rows</label>
+	<input type='number' id='rows' name='row_num' class='matrix_size' />
+	<label for='cols'>Columns</label>
+	<input type='number' id='cols' name='col_num' class='matrix_size' />
+	<input type='submit' value='set size' />
+</form>
+</div>
+
+<div class='css_input'>
+<form action="{% url 'matrixolver:solution' %}" method='POST' name='matrix'>{% csrf_token %}
+	<table id='InputTable'>
+{% if A %}
+	{% for row in A.rows %}
+		<tr>{% for element in row %}<td>
+<input type='number' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' step='any' value='{{ element }}' /></td>{% endfor %}</tr>
+	{% endfor %}
+{% endif %}
+	</table>
+	<input type='hidden'  id='hidden_rows' name='hidden_rows' value='3' />
+	<input type='hidden' id='hidden_cols' name='hidden_cols' value='3' />
+	<input type="submit" value="compute inversion" />
+</form>
+</div>
+
+
+{% if sol %}
+<div class='css solution'>
+	{% for step in sol %}
+		<div class='padded'>
+		<table class='styled'>
+			{% for row in step.left.rows %}
+				<tr>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
+			{% endfor %}
+		</table>
+		<table>
+			{% for row in step.right.rows %}
+				<tr>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
+			{% endfor %}
+		</table>
+		</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+{% block solution %}
+{% endblock %}

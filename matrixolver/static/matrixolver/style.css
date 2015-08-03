@@ -1,0 +1,15 @@
+input.input_matrix {
+	width: 50px;
+}
+
+input.matrix_size {
+	width: 50px;
+}
+
+table.styled {
+	float:left;
+}
+div.padded table {
+	border: 1px solid black;
+	align: center;
+}
