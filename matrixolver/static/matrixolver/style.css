@@ -109,9 +109,9 @@ div.cInput {
 }
 
 div.cInput input[type='text'] {
-	width: 30px;
+	width: 40px;
 	height: 30px;
-	font-size: 18px;
+	font-size: 20px;
 	text-align: center;
 	border: none;
 	background-color: rgb(220,220,220);
