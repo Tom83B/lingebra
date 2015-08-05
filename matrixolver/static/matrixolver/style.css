@@ -23,7 +23,7 @@ header {
 	background-color: black;
 	color: white;
 	text-align: left;
-	padding: 5px;
+	padding: 5px 15px;
 }
 
 header h1 {
@@ -84,7 +84,7 @@ body#hod a#hodnav {
 section {
 	height: auto;
 	float: top;
-	padding: 10px;
+	padding: 30px;
 	overflow: hidden;
 }
 
@@ -92,6 +92,7 @@ section {
 /*class cSize*/
 div.cSize {
 	padding: 20px;
+	padding-top: 10px;
 }
 
 div.cSize input[type='number'] {
@@ -105,7 +106,8 @@ div.cSize input[type='number'] {
 /*class cInput*/
 div.cInput {
 	padding: 20px;
-	padding-top: 0px;
+	padding-top: 10px;
+	float: left;
 }
 
 div.cInput input[type='text'] {
@@ -181,7 +183,10 @@ td.cTilde {
 }
 
 /*class cSolution*/
-div.cSolution { overflow: hidden; }
+div.cSolution {
+	overflow: hidden;
+	padding: 20px;
+}
 
 div.cSolution table {
 	table-layout: fixed;
