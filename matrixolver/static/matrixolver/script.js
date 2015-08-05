@@ -1,3 +1,13 @@
+function highlightCurrentLink(){
+    var a = document.getElementsByTagName("A");
+    for(var i=0;i<a.length;i++){
+        if(a[i].href.split("#")[0] == window.location.href.split("#")[0]){
+            a[i].style.background-color = 'rgb(0,0,0)';
+        }
+    }
+}
+
+
 function createInputTable(row_num, col_num, vals){
 	if (typeof vals=='undefined'){
 		vals = new Array();

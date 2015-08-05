@@ -1,6 +1,7 @@
 import copy
+from fractions import Fraction
 
-class Matrix():
+class Matrix(): #vyresit problem s float
 	def __init__(self, rows=None, size=None):
 		if rows is not None:
 			self.rows = rows
@@ -12,18 +13,18 @@ class Matrix():
 
 	@classmethod
 	def zeros(cls, size):
-		zero_list = [ [ 0 for i in range(0,size[1]) ] for j in range(0,size[0]) ]	#numpy
+		zero_list = [ [ Fraction() for i in range(0,size[1]) ] for j in range(0,size[0]) ]	#numpy
 		return cls(zero_list)
 
 	@classmethod
 	def identity(cls, size):
-		temp_list = [ [ 0 for i in range(0,size) ] for j in range(0,size) ]	#numpy
+		temp_list = [ [ Fraction() for i in range(0,size) ] for j in range(0,size) ]	#numpy
 		for i in range(0,size):
-			temp_list[i][i] = 1
+			temp_list[i][i] = Fraction(1,1)
 		return cls(temp_list)
 
 	def mprint(self):
-		for row in self.rows: print row
+		for row in self.rows: print(row)
 
 	def swap_rows(self, row1, row2):
 		self.rows[row1], self.rows[row2] = self.rows[row2], self.rows[row1]
@@ -44,13 +45,12 @@ class Matrix():
 		A = copy.deepcopy(self)
 		pivot = 0
 		i = 0
-		self.check = []
-		while pivot<A.col_num-1:
+		while i<A.row_num and pivot<A.col_num:
 			if A.rows[i][pivot] == 0:
 				min_ind = 0
 				try:
 					pivot_col = [ A.rows[j][pivot] for j in range(0,A.row_num) ]
-					min_val = min(list(filter(lambda x: x!=0, pivot_col)), key=abs)
+					min_val = min(list(filter(lambda x: x!=0, pivot_col[i:])), key=abs)
 				except ValueError:
 					pivot += 1
 					continue
@@ -62,15 +62,18 @@ class Matrix():
 						self.steps.append(lambda M, i=i, j=j: M.swap_rows(i,j))
 			
 			for j in range(i+1,A.row_num):
-				mult = A.rows[j][pivot]/A.rows[i][pivot]
-				if mult!=0:
-					self.steps.append(lambda M, i=i, j=j, mult=mult: M.substract_row(i,j,mult))
-					A.substract_row(i,j,mult)
+				try:
+					mult = Fraction(A.rows[j][pivot],A.rows[i][pivot])
+					if mult!=0:
+						self.steps.append(lambda M, i=i, j=j, mult=mult: M.substract_row(i,j,mult))
+						A.substract_row(i,j,mult)
+				except IndexError:
+					break
 
 			self.piv_cols.append(pivot)
 			pivot += 1
 			i += 1
-		if pivot==A.col_num-1 and A.rows[i][pivot]!=0: self.piv_cols.append(pivot)
+#		if pivot==A.col_num-1 and A.rows[i][pivot]!=0: self.piv_cols.append(pivot)
 
 	def gauss_steps(self):
 		A = copy.deepcopy(self)
@@ -82,7 +85,7 @@ class Matrix():
 			for i in range(0,A.row_num)[::-1]:
 				if A.rows[i][pivot]!=0:
 					for j in range(0,i):
-						mult = A.rows[j][pivot]/A.rows[i][pivot]
+						mult = Fraction(A.rows[j][pivot],A.rows[i][pivot])
 						if mult!=0:
 							self.steps.append(lambda M, mult=mult, i=i, j=j: M.substract_row(i,j,mult))
 							A.substract_row(i,j,mult)
@@ -93,9 +96,7 @@ class Matrix():
 			for i in range(0,A.row_num):
 				mult = A.rows[i][pivot]
 				if mult!=0 and mult!=1:
-					print i, pivot
-					print mult
-					inv_mult = 1./mult
+					inv_mult = Fraction(1,mult)
 					self.steps.append(lambda M, i=i, inv_mult=inv_mult: M.multiply_row(i,inv_mult))
 					A.multiply_row(i,inv_mult)
 					break
@@ -109,9 +110,9 @@ class ExtendedMatrix:
 	def gauss(self):
 		if not hasattr(self.left, 'steps'):
 			self.left.gauss_steps()
-		return [ ExtendedMatrix(step(self.left), step(self.right)) for step in self.left.steps ]
+		return [copy.deepcopy(self)] + [ ExtendedMatrix(step(self.left), step(self.right)) for step in self.left.steps ]
 
-A = Matrix([[1.,0.,0.],[0.,2.,0.],[0.,0.,3.]])
+A = Matrix([[1,0,0],[0,2,0],[0,0,3]])
 A.gauss_steps()
 #I = Matrix([[1,0],[0,1]])
 #ex = ExtendedMatrix(A, I)

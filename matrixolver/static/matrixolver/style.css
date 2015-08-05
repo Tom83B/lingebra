@@ -1,15 +1,208 @@
-input.input_matrix {
-	width: 50px;
+html {
+	background-color: rgb(100,100,100);
 }
 
-input.matrix_size {
-	width: 50px;
+#wrapper {
+	background-color: rgb(240,240,240);
+	min-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	padding: 0px;
+	overflow: hidden;
 }
 
-table.styled {
+#topDiv {
+	background-color: rgb(210,210,210);
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+header {
+	background-color: black;
+	color: white;
+	text-align: left;
+	padding: 5px;
+}
+
+header h1 {
+	font-family: 'Courier New';
+}
+
+nav {
+	z-index: 1;
+	background-color: rgb(210,210,210);
+	height: 50px;
+	font-family: 'Arial';
+	font-size: 18px;
+	text-align: center;
+	position: relative;
+}
+
+nav table {
+	width: 100%;
+	height: 40px;
+	position: absolute;
+	bottom: 0;
+	background: rgb(210,210,210);
+}
+
+nav td {
+	vertical-align: middle;
+}
+
+nav td a {
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+	background: rgb(210,210,210);
+	text-decoration: none;
+}
+
+nav td a:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -0.25em;
+}
+nav td a:hover {
+	background-color: rgb(240,240,240);
+}
+
+body#inv a#invnav,
+body#baz a#baznav,
+body#eig a#eignav,
+body#pis a#pisnav,
+body#stu a#stunav,
+body#rls a#rlsnav,
+body#hod a#hodnav {
+	background: rgb(240,240,240)
+}
+
+section {
+	height: auto;
+	float: top;
+	padding: 10px;
+	overflow: hidden;
+}
+
+
+/*class cSize*/
+div.cSize {
+	padding: 20px;
+}
+
+div.cSize input[type='number'] {
+	width: 30px;
+	height: 30px;
+	font-size: 18px;
+	border: none;
+	background-color: rgb(220,220,220);
+}
+
+/*class cInput*/
+div.cInput {
+	padding: 20px;
+	padding-top: 0px;
+}
+
+div.cInput input[type='text'] {
+	width: 30px;
+	height: 30px;
+	font-size: 18px;
+	text-align: center;
+	border: none;
+	background-color: rgb(220,220,220);
+}
+
+#InputTable { position: relative; margin-bottom: 10px; }
+#InputTable:before, #InputTable:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	border: 1px solid #000;
+	width: 10px;
+	height: 100%;
+}
+#InputTable:before { border-right: none; left: -0px; }
+#InputTable:after { border-left: none; right: -0px; }
+
+/*class cSubmit*/
+input.cSubmit {
+	width: auto;
+}
+
+
+/*class cLeftMatrix*/
+table.cLeftMatrix {
 	float:left;
+	border-right: 1px solid black;
 }
-div.padded table {
-	border: 1px solid black;
-	align: center;
+
+table.cLeftMatrix:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	border: 1px solid #000;
+	width: 6px;
+	height: 100%;
+	left: -0px;
+	border-right: 0;
+}
+
+/*class cRightMatrix*/
+table.cRightMatrix {
+	float: left;
+}
+
+table.cRightMatrix:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	border: 1px solid #000;
+	width: 6px;
+	height: 100%;
+	right: -0px;
+	border-left: 0;
+}
+
+/*set tilde*/
+table.cTilde {
+	float: right;
+	padding: 0px;
+	border-spacing: 0;
+}
+td.cTilde {
+	padding: 0px;
+	vertical-align: middle;
+	height: 50px;
+}
+
+/*class cSolution*/
+div.cSolution { overflow: hidden; }
+
+div.cSolution table {
+	table-layout: fixed;
+	position: relative;
+	display: inline-block;
+}
+
+div.cSolution td {
+	text-align: center;
+	padding: 0px;
+	width: 40px;
+}
+
+/*class cExtendedMatrix*/
+div.cExtendedMatrix {
+	white-space: nowrap;
+	float: left;
+	margin-bottom: 15px;
+	padding: 0px;
+}
+
+div.cExtendedMatrix table {
+	margin: 0px;
 }

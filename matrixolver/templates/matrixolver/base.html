@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='UTF-8'>
+	<title>Matrixolver</title>
+{% load staticfiles %}
+
+<link rel='stylesheet' type='text/css' href='{% static "matrixolver/style.css" %}'>
+<script type='text/javascript' src='{% static "matrixolver/script.js" %}'></script>
+</head>
+
+<body id='inv'>
+<div id='wrapper'>
+
+<div id='topDiv'>
+<header>
+<h1>MATRIXOLVER</h1>
+<h2>lingebra s postupem</h2>
+</header>
+
+<nav>
+
+<table cellpadding='0px' cellspacing='0px'>
+<tr>
+	<td><a id='hodnav' href='{% url "matrixolver:inv_index" %}'>Hodnost matice</a></td>
+	<td><a id='invnav' href='{% url "matrixolver:inv_index" %}'>Inverzni matice</a></td>
+	<td><a id='baznav' href='{% url "matrixolver:inv_index" %}'>Prevod bazi</a></td>
+	<td><a id='eignav' href='{% url "matrixolver:inv_index" %}'>Vlastni cisla</a></td>
+	<td><a id='pisnav' href='{% url "matrixolver:inv_index" %}'>Piskoviste</a></td>
+	<td><a id='stunav' href='{% url "matrixolver:inv_index" %}'>Studijni plan</a></td>
+	<td><a id='rslnav' href='{% url "matrixolver:inv_index" %}'>Reseni soustav</a></td>
+</tr>
+</table>
+</nav>
+<script type='text/javascript'>
+	highlightCurrentLink();
+</script>
+</div>
+
+<section>
+{% block content %}
+{% endblock %}
+</section>
+
+<footer>
+
+</footer>
+</div>
+<body>
+
+</html>
