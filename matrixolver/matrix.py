@@ -35,8 +35,9 @@ class Matrix(): #vyresit problem s float
 			self.rows[row2][i] = self.rows[row2][i]-mult*self.rows[row1][i]
 		return self
 
-	def multiply_row(self, row, mult):	#numpy
-		self.rows[row] = [ self.rows[row][i]*mult for i in range(0,self.col_num) ]
+	def multiply_rows(self, rows, mults):	#numpy
+		for (row, mult) in zip(rows, mults):
+			self.rows[row] = [ self.rows[row][i]*mult for i in range(0,self.col_num) ]
 		return self
 
 	def upper_triang_steps(self):
@@ -91,16 +92,20 @@ class Matrix(): #vyresit problem s float
 							A.substract_row(i,j,mult)
 					break
 
+		rows = []
+		mults = []
 		for pivot in self.piv_cols:
 			pivot_col = [ A.rows[i][pivot] for i in range(0,A.row_num) ]	#numpy
 			for i in range(0,A.row_num):
 				mult = A.rows[i][pivot]
 				if mult!=0 and mult!=1:
 					inv_mult = Fraction(1,mult)
-					self.steps.append(lambda M, i=i, inv_mult=inv_mult: M.multiply_row(i,inv_mult))
-					A.multiply_row(i,inv_mult)
-					break
-	
+					rows.append(i)
+					mults.append(inv_mult)
+					break	
+		A.multiply_rows(rows, mults)
+		self.steps.append(lambda M, rows=rows, mults=mults: M.multiply_rows(rows,mults))
+
 
 class ExtendedMatrix:
 	def __init__(self, left, right):

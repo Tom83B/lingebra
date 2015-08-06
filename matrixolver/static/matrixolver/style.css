@@ -186,6 +186,7 @@ td.cTilde {
 div.cSolution {
 	overflow: hidden;
 	padding: 20px;
+	padding-top: 10px;
 }
 
 div.cSolution table {
