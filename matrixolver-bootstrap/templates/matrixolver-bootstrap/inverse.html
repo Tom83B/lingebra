@@ -1,0 +1,87 @@
+{% extends 'matrixolver-bootstrap/base.html' %}
+
+{% block content %}
+
+<div class='container-fluid'>
+	<div class='row'>
+		<div class='col-md-3'>
+			<div class='span1'>
+			<div class='row'>
+			<div class='col'>
+				<div class='input-group cInput'>
+				<form action="{% url 'matrixolver:inv_solution' %}" method='POST' name='matrix'>{% csrf_token %}
+				<!--form validation--!>
+					<table class='table table-bordered table-condensed'>
+				{% if A %}
+					{% for row in A.rows %}
+						<tr>{% for element in row %}<td>
+				<input class='form-control' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' /></td>{% endfor %}</tr>
+					{% endfor %}
+					<input type='hidden'  id='hidden_rows' name='hidden_rows' value='{{ A.row_num }}' />
+					<input type='hidden' id='hidden_cols' name='hidden_cols' value='{{ A.col_num }}' />
+					<!--toto jeste vylepsit, mozna pres cache, mozna jinak--!>
+				{% endif %}
+					</table>
+					<input type="submit" value="compute inversion" class='btn btn-default' />
+				</form>
+				</div>
+			</div>
+			</div>
+			<div class='row'>
+			<div class='col'>
+				<div class='cSize'>
+				<form action='{% url "matrixolver:inv_get_size" %}' method='POST'>{% csrf_token %}
+					<label for='rows'>Rows</label>
+					<input type='number' id='rows' name='row_num' autocomplete='off' min='1' />
+					<label for='cols'>Columns</label>
+					<input type='number' id='cols' name='col_num' autocomplete='off' min='1' />
+					<input type='submit' value='set size' class='cSubmit' />
+				</form><!--form validation--!>
+				</div>
+			</div>
+			</div>
+			</div>
+		</div>
+
+		<div class='col-md-9'>
+			{% if message %}
+				<div class='alert alert-danger'>
+					<strong>Inverzní matice neexistuje:</strong> {{message}}
+				</div>
+			{% endif %}
+			{% if sol %}
+			<div class='cSolution'>
+				{% for step in sol %}
+					<div class='cExtendedMatrix'>
+					<div class='panel panel-default cShrink'>
+						<table class='cLeftMatrix' id='tl{{ forloop.counter0 }}'>
+							{% for row in step.0.left.rows %}
+								<tr>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
+							{% endfor %}
+						</table>
+						<table class='cRightMatrix' id='tr{{ forloop.counter0 }}'>
+							{% for row in step.0.right.rows %}
+								<tr>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
+							{% endfor %}
+						</table>
+					</div>
+
+					{% if not forloop.last %}
+					<table class='cTilde'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' >~</td></tr></table>
+					{% else %}
+					<table class='cTilde'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' ></td></tr></table>
+					{% endif %}
+					</div>
+					{% if not forloop.last %}
+					<script type='text/javascript'>
+						var height = document.getElementById('tl0').clientHeight;
+						document.getElementById('tilde{{ forloop.counter0 }}').style.height = height+'px';
+					</script>
+					{% endif %}
+				{% endfor %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock content %}

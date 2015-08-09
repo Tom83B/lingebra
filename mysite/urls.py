@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('matrixolver.urls', namespace='matrixolver')),
+    url(r'^', include('matrixolver-bootstrap.urls', namespace='matrixolver')),
 ]

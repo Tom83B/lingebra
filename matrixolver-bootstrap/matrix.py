@@ -1,10 +1,13 @@
 import copy
 from fractions import Fraction
+import pdb
 
 from .messages import message
 
 class Matrix(): #vyresit problem s float
 	def __init__(self, rows=None, size=None):
+		self.regular = None
+		self.steps = None
 		if rows is not None:
 			self.rows = rows
 			self.row_num = len(rows)
@@ -42,6 +45,25 @@ class Matrix(): #vyresit problem s float
 			self.rows[row] = [ self.rows[row][i]*mult for i in range(0,self.col_num) ]
 		return self
 
+	def is_regular(self):
+		if self.regular is not None:
+			return self.regular
+		else:
+			if self.row_num != self.col_num:
+				return {'val': False, 'why': 'not_square'}
+			elif self.steps is not None:
+				product = 1
+				X = copy.deepcopy(self)
+				for step in self.steps: step[0](X)
+				diagonal = [ X.rows[i][i] for i in range(0,X.row_num) ]
+				for element in diagonal: product *= element
+				if product == 0: return {'val': False, 'why': 'rank'}
+				else: return {'val': True, 'why': 'you are good to go!'}
+			else:
+				X = copy.deepcopy(self)	#nechci, aby mela matice steps not None a gauss byl pritom jen polovicni
+				X.upper_triang_steps()
+				return X.is_regular()	#ted by uz steps nemelo byt None
+
 	def upper_triang_steps(self):
 		self.steps = []
 		self.piv_cols = []
@@ -63,14 +85,14 @@ class Matrix(): #vyresit problem s float
 						min_ind = j
 						A.swap_rows(j,i)
 						lambda_func = lambda M, i=i, j=j: M.swap_rows(i,j)
-						self.steps.append((lambda_func, 'swap', (i,j)));
+						self.steps.append((lambda_func, ['swap', (i,j)]));
 			
 			for j in range(i+1,A.row_num):
 				try:
 					mult = Fraction(A.rows[j][pivot],A.rows[i][pivot])
 					if mult!=0:
 						lambda_func = lambda M, i=i, j=j, mult=mult: M.substract_row(i,j,mult)
-						self.steps.append((lambda_func, 'subs', (mult, i, j)))
+						self.steps.append((lambda_func, ['subs', (mult, i, j)]))
 						A.substract_row(i,j,mult)
 				except IndexError:
 					break
@@ -78,7 +100,6 @@ class Matrix(): #vyresit problem s float
 			self.piv_cols.append(pivot)
 			pivot += 1
 			i += 1
-#		if pivot==A.col_num-1 and A.rows[i][pivot]!=0: self.piv_cols.append(pivot)
 
 	def gauss_steps(self):
 		A = copy.deepcopy(self)
@@ -93,7 +114,7 @@ class Matrix(): #vyresit problem s float
 						mult = Fraction(A.rows[j][pivot],A.rows[i][pivot])
 						if mult!=0:
 							lambda_func = lambda M, mult=mult, i=i, j=j: M.substract_row(i,j,mult)
-							self.steps.append((lambda_func, 'subs', (mult,i,j)))	#radek i se odecita od j
+							self.steps.append((lambda_func, ['subs', (mult,i,j)]))	#radek i se odecita od j
 							A.substract_row(i,j,mult)
 					break
 
@@ -110,7 +131,7 @@ class Matrix(): #vyresit problem s float
 					break	
 		A.multiply_rows(rows, mults)
 		func = lambda M, rows=rows, mults=mults: M.multiply_rows(rows,mults)
-		self.steps.append((func, 'mult', (rows, mults)))
+		self.steps.append((func, ['mult', (rows, mults)]))
 
 
 class ExtendedMatrix:
@@ -119,12 +140,12 @@ class ExtendedMatrix:
 		self.right = copy.deepcopy(right)
 
 	def gauss(self):
-		if not hasattr(self.left, 'steps'):
+		if self.left.steps is None:
 			self.left.gauss_steps()
-		return [(copy.deepcopy(self), {})] + [ ( ExtendedMatrix(step[0](self.left), step[0](self.right)), message(step) ) for step in self.left.steps ]
+		return [(copy.deepcopy(self), {})] + [ ( ExtendedMatrix(step[0](self.left), step[0](self.right)), message(step[1]) ) for step in self.left.steps ]
 
 A = Matrix([[1,0,0],[0,2,0],[0,0,3]])
 A.gauss_steps()
 #I = Matrix([[1,0],[0,1]])
 #ex = ExtendedMatrix(A, I)
-#inv = ex.gauss()
+		#inv = ex.gauss()
