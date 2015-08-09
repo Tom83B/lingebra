@@ -1,13 +1,3 @@
-function highlightCurrentLink(){
-    var a = document.getElementsByTagName("A");
-    for(var i=0;i<a.length;i++){
-        if(a[i].href.split("#")[0] == window.location.href.split("#")[0]){
-            a[i].style.background-color = 'rgb(0,0,0)';
-        }
-    }
-}
-
-
 function createInputTable(row_num, col_num, vals){
 	if (typeof vals=='undefined'){
 		vals = new Array();
@@ -19,6 +9,7 @@ function createInputTable(row_num, col_num, vals){
 	var old_table = document.getElementById('InputTable')
 	var table = document.createElement('table')
 	table.id = 'InputTable';
+	table.className = 'table table-bordered table-condensed';
 	var rows = new Array();
 	var cells = new Array();
 	for (i=0; i<row_num; i++){
@@ -27,7 +18,7 @@ function createInputTable(row_num, col_num, vals){
 		for (j=0; j<col_num; j++){
 			if (typeof vals[i][j]=='undefined') vals[i][j] = 0;
 			cells[i][j] = rows[i].insertCell(j);
-			cells[i][j].innerHTML = '<input type="number" name="'+'a'+i+j+'" step="any" value='+vals[i][j]+' class=input_matrix />';
+			cells[i][j].innerHTML = "<input class='form-control' type='text' name='a"+i+j+"' onclick='select()' step='any' value='"+vals[i][j]+"' autocomplete='off' />";
 		}
 	}
 	old_table.parentNode.replaceChild(table, old_table);
