@@ -6,36 +6,46 @@
 {% load staticfiles %}
 
 <link rel='stylesheet' type='text/css' href='{% static "matrixolver/style.css" %}'>
-<script type='text/javascript' src='{% static "matrixolver/script.js" %}'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<body id='inv'>
-<div id='wrapper'>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">MATRIXOLVER</a>
+    </div>
 
-<div id='topDiv'>
-<header>
-<h1>MATRIXOLVER</h1>
-<h2>lingebra s postupem</h2>
-</header>
-
-<nav>
-
-<table cellpadding='0px' cellspacing='0px'>
-<tr>
-	<td><a id='hodnav' href='{% url "matrixolver:inv_index" %}'>Hodnost matice</a></td>
-	<td><a id='rslnav' href='{% url "matrixolver:inv_index" %}'>Reseni soustav</a></td>
-	<td><a id='invnav' href='{% url "matrixolver:inv_index" %}'>Inverzni matice</a></td>
-	<td><a id='baznav' href='{% url "matrixolver:inv_index" %}'>Prevod bazi</a></td>
-	<td><a id='eignav' href='{% url "matrixolver:inv_index" %}'>Vlastni cisla</a></td>
-	<td><a id='pisnav' href='{% url "matrixolver:inv_index" %}'>Piskoviste</a></td>
-	<td><a id='stunav' href='{% url "matrixolver:inv_index" %}'>Studijni plan</a></td>
-</tr>
-</table>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#">Hodnost matice</a></li>
+        <li class="active"><a href="#">Inverzní matice<span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Řešení soustav</a></li>
+        <li><a href="#">Převod bází</a></li>
+        <li><a href="#">Vlastní čísla</a></li>
+        <li><a href="#">Pískoviště</a></li>
+        <li><a href="#">Studijní plán</a></li>
+        <li><a href="#">Generovat PDF</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </nav>
-<script type='text/javascript'>
-	highlightCurrentLink();
-</script>
-</div>
 
 <section>
 {% block content %}

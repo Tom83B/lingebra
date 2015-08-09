@@ -6,6 +6,8 @@ from django.views.generic.base import TemplateView
 
 from fractions import Fraction
 from .matrix import Matrix, ExtendedMatrix
+from .matrix_calls import inverse_call
+from . import messages
 
 
 def inv_index(request):
@@ -32,10 +34,13 @@ def inv_solution(request):
 				cell_name = 'a'+str(i)+str(j)
 				rows[i].append( Fraction(request.POST.get(cell_name, 0.)) )
 		A = Matrix(rows)
-		I = Matrix.identity(A.row_num)
-		E = ExtendedMatrix(A,I)
-		sol = E.gauss()
-		return render(request, 'matrixolver/inverse.html', {'sol': sol, 'A': A, 'rows': rows,})
+		result = inverse_call(A)
+		if 'error' in result:
+			print(result['error'])
+			error_message = messages.error_message(result['error'])
+			return render(request, 'matrixolver/inverse.html', {'sol': result['sol'], 'A': A, 'rows': rows, 'message': error_message['cz'],})
+		else:
+			return render(request, 'matrixolver/inverse.html', {'sol': result['sol'], 'A': A, 'rows': rows,})
 	return inv_index(request)
 
 

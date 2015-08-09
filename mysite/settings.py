@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'matrixolver',
-    'matrixolver-bootstrap',
 )
 
 MIDDLEWARE_CLASSES = (

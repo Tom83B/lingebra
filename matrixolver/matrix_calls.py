@@ -16,4 +16,5 @@ def inverse_call(M):
 		elif regularity['val']==True:
 			E = ExtendedMatrix(M,I)
 			sol = E.gauss()
+			sol[-1][1] = {'cz': 'Na pravé straně je nyní inverzní matice'}
 			return {'sol': sol}
