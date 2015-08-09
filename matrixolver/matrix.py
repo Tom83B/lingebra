@@ -142,10 +142,12 @@ class ExtendedMatrix:
 	def gauss(self):
 		if self.left.steps is None:
 			self.left.gauss_steps()
-		steps_info = [ message(step[1]) for step in self.left.steps ]+[{}]
+		steps_info = [ step[1] for step in self.left.steps ]
+		messages = [ message(info) for info in steps_info ]+[{}]
 		solution = [copy.deepcopy(self)] + [ ExtendedMatrix(step[0](self.left), step[0](self.right)) for step in self.left.steps ]
-		return_list = [ list(a) for a in zip(solution, steps_info) ]
-		return return_list
+		keys = ['sol', 'info', 'message']
+		return_list = [ list(a) for a in zip(solution, steps_info+[[]], messages) ]	#prvek [[]] dodan, aby vse melo stejnou delku
+		return [dict(zip(keys, a)) for a in return_list]
 
 A = Matrix([[1,0,0],[0,2,0],[0,0,3]])
 A.gauss_steps()

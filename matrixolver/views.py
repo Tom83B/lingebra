@@ -38,7 +38,7 @@ def inv_solution(request):
 		if 'error' in result:
 			print(result['error'])
 			error_message = messages.error_message(result['error'])
-			return render(request, 'matrixolver/inverse.html', {'sol': result['sol'], 'A': A, 'rows': rows, 'message': error_message['cz'],})
+			return render(request, 'matrixolver/inverse.html', {'sol': result['sol'], 'A': A, 'rows': rows, 'error': error_message['cz'],})
 		else:
 			return render(request, 'matrixolver/inverse.html', {'sol': result['sol'], 'A': A, 'rows': rows,})
 	return inv_index(request)
