@@ -8,10 +8,14 @@
 	var col_num = {{ A.col_num }};
 </script>
 
+<style>
+	.affix{ top: 20px; }
+</style>
+
 <div class='container-fluid'>
 	<div class='row' id='solution_row'>
-			<div class='col-md-2 col-sm-2'>
-			<div class='span1 well'>
+			<div class='col-md-2 col-sm-3 well sidebar-nav-fixed' style='padding: 19px 0 !important;'>
+			<div class='span1'> <!--potreba prijit na to, proc se meni sirka a vyresit overlap pri mensim rozliseni--!>
 			<div class='row'>
 			<div class='col'>
 			<!--	<div class='cSize'>
@@ -78,7 +82,8 @@
 															$( '#hidden_cols' ).val(col_num);})
 </script>
 
-		<div class='col-md-10 col-sm-10'>
+<!-- reseni bude v include --!>
+		<div class='col-md-10 col-sm-9' style='padding-right: 0 !important;'>
 			{% if message %}
 				<div class='alert alert-danger'>
 					<strong>Inverzní matice neexistuje:</strong> {{message}}
