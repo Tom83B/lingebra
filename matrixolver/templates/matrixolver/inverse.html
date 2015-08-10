@@ -6,6 +6,8 @@
 <script type='text/javascript'>
 	var row_num = {{ A.row_num }};
 	var col_num = {{ A.col_num }};
+	function Mobile() { return ('ontouchstart' in document.documentElement); }
+	isMobile = Mobile();
 </script>
 
 <style>
@@ -128,7 +130,7 @@
 					{% endif %}
 				{% endfor %}
 				<script type='text/javascript'>
-					$('div[name=extended_matrix_panel]').click(
+					$('div[name=extended_matrix_panel]').on(isMobile ? 'touchend' : 'click',
 						function(){
 							if( $(this).hasClass('selected') ) {
 									$(this).find('tr').removeClass('selected');
@@ -152,7 +154,7 @@
 													panels = $('.cExtendedMatrix');
 													tilds = panels.find('table[name=tilde_table]')
 													if (panels.length>1){
-																	if (panels.eq(0).position().top != panels.eq(1).position().top){
+																	if (panels.eq(0).position().top != panels.eq(1).position().top || panels.eq(0).position().top != tilds.eq(0).position().top){
 																				tilds.hide();}
 																	else {tilds.show();}}
 													else {tilds.hide();}
@@ -162,7 +164,7 @@
 													panels = $('.cExtendedMatrix');
 													tilds = panels.find('table[name=tilde_table]')
 													if (panels.length>1){
-																	if (panels.eq(0).position().top != panels.eq(1).position().top){
+																	if (panels.eq(0).position().top != panels.eq(1).position().top || panels.eq(0).position().top != tilds.eq(0).position().top){
 																				tilds.hide();}
 																	else {tilds.show();}}
 													else {tilds.hide();}
