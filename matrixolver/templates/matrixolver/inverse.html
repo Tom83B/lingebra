@@ -73,6 +73,7 @@
 															$( '#PrintSize' ).html(row_num);
 															$( '#hidden_rows' ).val(row_num);
 															$( '#hidden_cols' ).val(col_num);})
+
 	$( '#sizePlus' ).click(function(){
 															row_num += 1;
 															col_num += 1;
@@ -114,9 +115,9 @@
 						</div>
 						<script>$( '#pan{{ forloop.counter0 }}' ).css('width', $( '#tl{{ forloop.counter0 }}' ).outerWidth()+$( '#tr{{ forloop.counter0 }}' ).outerWidth())</script>
 						{% if not forloop.last %}
-						<table class='cTilde'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' >~</td></tr></table>
+						<table class='cTilde' name='tilde_table'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' >~</td></tr></table>
 						{% else %}
-						<table class='cTilde'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' ></td></tr></table>
+						<table class='cTilde' name='tilde_table'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' ></td></tr></table>
 						{% endif %}
 						</div>
 					{% if not forloop.last %}
@@ -146,6 +147,26 @@
 						function(){
 							$(this).find('tr').removeClass('active');}
 					);
+
+					$( window ).resize(function(){
+													panels = $('.cExtendedMatrix');
+													tilds = panels.find('table[name=tilde_table]')
+													if (panels.length>1){
+																	if (panels.eq(0).position().top != panels.eq(1).position().top){
+																				tilds.hide();}
+																	else {tilds.show();}}
+													else {tilds.hide();}
+					});
+
+					$( document ).ready(function(){
+													panels = $('.cExtendedMatrix');
+													tilds = panels.find('table[name=tilde_table]')
+													if (panels.length>1){
+																	if (panels.eq(0).position().top != panels.eq(1).position().top){
+																				tilds.hide();}
+																	else {tilds.show();}}
+													else {tilds.hide();}
+					});
 				</script>
 			</div>
 			{% endif %}

@@ -117,11 +117,11 @@ table.cLeftMatrix {
 table.cLeftMatrix:before {
 	content: "";
 	position: absolute;
-	top: 0;
+	top: -5%;
 	border: 1px solid #000;
 	width: 6px;
-	height: 100%;
-	left: -0px;
+	height: 110%;
+	left: -2px;
 	border-right: 0;
 }
 
@@ -133,11 +133,11 @@ table.cRightMatrix {
 table.cRightMatrix:after {
 	content: "";
 	position: absolute;
-	top: 0;
+	top: -5%;
 	border: 1px solid #000;
 	width: 6px;
-	height: 100%;
-	right: -0px;
+	height: 110%;
+	right: -2px;
 	border-left: 0;
 }
 
@@ -173,14 +173,14 @@ div.cSolution td {
 	text-align: center;
 }
 
-.cSwap.active {background: LightCyan;}
-.cSubsSubstrahend.active {background: #FF9999;}
-.cSubsMinuend.active {background: #CCFF99;}
+.cSwap.active {background: #CCFFFF;}
+.cSubsSubstrahend.active {background: #CCFFCC;}
+.cSubsMinuend.active {background: #FFCCCC;}
 /*.cMult.active {background: #E6E6E6;}*/
 
-.cSwap.selected {background: LightCyan;}
-.cSubsSubstrahend.selected {background: #FF9999;}
-.cSubsMinuend.selected {background: #CCFF99;}
+.cSwap.selected {background: #CCFFFF;}
+.cSubsSubstrahend.selected {background: #CCFFCC;}
+.cSubsMinuend.selected {background: #FFCCCC;}
 /*.cMult.selected {background: #E6E6E6;}*/
 
 .row #solution_row { margin-right: -30px !important;} /* aby se lepe vesly matice */
