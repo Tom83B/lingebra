@@ -94,7 +94,7 @@
 				{% for step in sol %}
 						<div class='cExtendedMatrix'>
 						<div class='panel panel-default cShrink'>
-							<div class='panel-body'>
+							<div class='panel-body' name='extended_matrix_panel'>
 									<table class='cLeftMatrix' id='tl{{ forloop.counter0 }}'>
 										{% for row in step.sol.left.rows %}
 												<tr class='{{ step.info|row_class:forloop.counter0 }}'>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
@@ -127,7 +127,25 @@
 					{% endif %}
 				{% endfor %}
 				<script type='text/javascript'>
-					
+					$('div[name=extended_matrix_panel]').click(
+						function(){
+							if( $(this).hasClass('selected') ) {
+									$(this).find('tr').removeClass('selected');
+									$(this).removeClass('selected');
+							}
+							else {
+									$(this).find('tr').addClass('selected');
+									$(this).addClass('selected');
+							}
+						}
+					);
+					$('div[name=extended_matrix_panel]').hover(
+						function(){
+							$(this).css('cursor','pointer');
+							$(this).find('tr').addClass('active');},
+						function(){
+							$(this).find('tr').removeClass('active');}
+					);
 				</script>
 			</div>
 			{% endif %}

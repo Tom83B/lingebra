@@ -173,7 +173,15 @@ div.cSolution td {
 	text-align: center;
 }
 
-.active tr.cSwap {background: rgb(200,200,200);}
+.cSwap.active {background: LightCyan;}
+.cSubsSubstrahend.active {background: #FF9999;}
+.cSubsMinuend.active {background: #CCFF99;}
+/*.cMult.active {background: #E6E6E6;}*/
+
+.cSwap.selected {background: LightCyan;}
+.cSubsSubstrahend.selected {background: #FF9999;}
+.cSubsMinuend.selected {background: #CCFF99;}
+/*.cMult.selected {background: #E6E6E6;}*/
 
 .row #solution_row { margin-right: -30px !important;} /* aby se lepe vesly matice */
 
