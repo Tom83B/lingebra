@@ -11,6 +11,9 @@ from . import messages
 
 import pdb
 
+def index(request):
+	return render(request, 'matrixolver/index.html')
+
 def inv_index(request):
 	A = Matrix.zeros(size=(3,3))
 	return render(request, 'matrixolver/inverse.html', {'A': A,})

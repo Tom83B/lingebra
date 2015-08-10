@@ -3,6 +3,9 @@
 {% block content %}
 
 <script type='text/javascript'>
+	lis = $('ul.nav').find('li');
+	lis.removeClass('active');
+	$('#inv').addClass('active');
 	var row_num = {{ A.row_num }};
 	var col_num = {{ A.col_num }};
 </script>
