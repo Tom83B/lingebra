@@ -9,6 +9,7 @@ from .matrix import Matrix, ExtendedMatrix
 from .matrix_calls import inverse_call
 from . import messages
 
+import pdb
 
 def inv_index(request):
 	A = Matrix.zeros(size=(3,3))

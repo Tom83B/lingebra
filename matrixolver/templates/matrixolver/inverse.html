@@ -84,9 +84,9 @@
 
 <!-- reseni bude v include --!>
 		<div class='col-md-10 col-sm-9' style='padding-right: 0 !important;'>
-			{% if message %}
+			{% if error %}
 				<div class='alert alert-danger'>
-					<strong>Inverzní matice neexistuje:</strong> {{message}}
+					<strong>Inverzní matice neexistuje:</strong> {{error}}
 				</div>
 			{% endif %}
 			{% if sol %}
