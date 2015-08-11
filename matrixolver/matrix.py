@@ -133,6 +133,16 @@ class Matrix(): #vyresit problem s float
 		func = lambda M, rows=rows, mults=mults: M.multiply_rows(rows,mults)
 		self.steps.append((func, ['mult', (rows, mults)]))
 
+	def stairs(self):
+		M = copy.deepcopy(self)
+		M.upper_triang_steps()
+		steps_info = [ step[1] for step in M.steps ]
+		messages = [ message(info) for info in steps_info ]+[{}]
+		solution = [copy.deepcopy(M)] + [ step[0](M) for step in M.steps ]
+		keys = ['sol', 'info', 'message']
+		return_list = [ list(a) for a in zip(solution, steps_info+[[]], messages) ]	#prvek [[]] dodan, aby vse melo stejnou delku
+		return [dict(zip(keys, a)) for a in return_list]
+
 
 class ExtendedMatrix:
 	def __init__(self, left, right):

@@ -39,7 +39,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">Hodnost matice</a></li>
+        <li id='rank'><a href="{% url 'matrixolver:rank' %}">Hodnost matice</a></li>
         <li id='inv'><a href="{% url 'matrixolver:inv_index' %}">Inverzní matice</a></li>
         <li><a href="#">Řešení soustav</a></li>
         <li><a href="#">Převod bází</a></li>

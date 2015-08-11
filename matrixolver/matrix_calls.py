@@ -3,7 +3,6 @@ import pdb
 
 
 def inverse_call(M):
-	message = None
 	if M.row_num==M.col_num:
 		I = Matrix.identity(M.row_num)
 		regularity = M.is_regular()
@@ -19,4 +18,12 @@ def inverse_call(M):
 			sol = E.gauss()
 			sol[-1]['message'] = {'cz': 'Na pravé straně je nyní inverzní matice'}
 			error = 'irregular'
-			return {'sol': sol, 'messages': message}
+			return {'sol': sol}
+
+def rank_call(M):
+	sol = M.stairs()
+	rank = 0
+	for row in M.rows[::-1]:
+		if not all(val==0 for val in row): rank += 1
+	sol[-1]['message'] = {'cz': 'Hodnost matice je '+str(rank)}
+	return {'sol': sol}

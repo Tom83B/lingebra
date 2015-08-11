@@ -1,0 +1,86 @@
+{% load matrixolver_extras %}
+
+		<div class='col-md-10 col-sm-9' style='padding-right: 0 !important;'>
+			{% if error %}
+				<div class='alert alert-danger'>
+					<strong>Inverzní matice neexistuje:</strong> {{error}}
+				</div>
+			{% endif %}
+			{% if sol %}
+			<div class='cSolution'>
+				{% for step in sol %}
+						<div class='cExtendedMatrix'>
+						<div class='panel panel-default cShrink'>
+							<div class='panel-body' name='extended_matrix_panel'>
+									<table class='cLeftMatrix' id='tl{{ forloop.counter0 }}'>
+										{% for row in step.sol.rows %}
+												<tr class='{{ step.info|row_class:forloop.counter0 }}'>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
+										{% endfor %}
+									</table>
+							</div>
+							<div class='panel-footer'>
+								<div id='pan{{ forloop.counter0 }}' style='white-space: normal'>
+									{{step.message.cz}}
+								</div>
+							</div>
+						</div>
+						<script>$( '#pan{{ forloop.counter0 }}' ).css('width', $( '#tl{{ forloop.counter0 }}' ).outerWidth()+$( '#tr{{ forloop.counter0 }}' ).outerWidth())</script>
+						{% if not forloop.last %}
+						<table class='cTilde' name='tilde_table'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' >~</td></tr></table>
+						{% else %}
+						<table class='cTilde' name='tilde_table'><tr><td id='tilde{{ forloop.counter0 }}' class='cTilde' ></td></tr></table>
+						{% endif %}
+						</div>
+					{% if not forloop.last %}
+					<script type='text/javascript'>
+						var height = document.getElementById('tl0').clientHeight;
+						document.getElementById('tilde{{ forloop.counter0 }}').style.height = height+'px';
+					</script>
+					{% endif %}
+				{% endfor %}
+				<script type='text/javascript'>
+					function Mobile() { return ('ontouchstart' in document.documentElement); }
+					isMobile = Mobile();
+					$('div[name=extended_matrix_panel]').on(isMobile ? 'touchend' : 'click',
+						function(){
+							if( $(this).hasClass('selected') ) {
+									$(this).find('tr').removeClass('selected');
+									$(this).removeClass('selected');
+							}
+							else {
+									$(this).find('tr').addClass('selected');
+									$(this).addClass('selected');
+							}
+						}
+					);
+					$('div[name=extended_matrix_panel]').hover(
+						function(){
+							$(this).css('cursor','pointer');
+							$(this).find('tr').addClass('active');},
+						function(){
+							$(this).find('tr').removeClass('active');}
+					);
+
+					$( window ).resize(function(){
+													panels = $('.cExtendedMatrix');
+													tilds = panels.find('table[name=tilde_table]')
+													if (panels.length>1){
+																	if (panels.eq(0).position().top != panels.eq(1).position().top || panels.eq(0).position().top != tilds.eq(0).position().top){
+																				tilds.hide();}
+																	else {tilds.show();}}
+													else {tilds.hide();}
+					});
+
+					$( document ).ready(function(){
+													panels = $('.cExtendedMatrix');
+													tilds = panels.find('table[name=tilde_table]')
+													if (panels.length>1){
+																	if (panels.eq(0).position().top != panels.eq(1).position().top || panels.eq(0).position().top != tilds.eq(0).position().top){
+																				tilds.hide();}
+																	else {tilds.show();}}
+													else {tilds.hide();}
+					});
+				</script>
+			</div>
+			{% endif %}
+		</div>
