@@ -1,0 +1,13 @@
+{% extends 'matrixolver/base.html' %}
+
+{% block content %}
+<script type='text/javascript'>
+
+	lis = $('ul.nav').find('li');
+	lis.removeClass('active');
+</script>
+
+<h1>Vítej na MATRIXOLVERu</h1>
+
+Budu postupně rozšiřovat jeho funkce. Začnu u základních a postupně se pokusím pokrýt vše, co lze v lineární algebře probírat, ať už se jedná o úlohy s komplexními čísly, s parametrem, nebo lineární variety. Pokud chcete vývoj stránek urychlit, můžete mě <a href=#>podpořit</a>, nebo můžete <a href=#>nabídnout odměnu</a> za spěšné dokončení konkrétní funkce. Na tomto projektu pracuji ve svém volném čase a toho času mi už vzal opravdu hodně. Proto takovouto pomoc velmi ocením.
+{% endblock content %}

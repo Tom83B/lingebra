@@ -1,0 +1,100 @@
+{% extends 'matrixolver/base.html' %}
+
+{% block content %}
+
+<script type='text/javascript'>
+	lis = $('ul.nav').find('li');
+	lis.removeClass('active');
+	$('#sys').addClass('active');
+	var row_num = {{ A.row_num }};
+	var col_num = {{ A.col_num }};
+</script>
+
+<style>
+	.affix{ top: 20px; }
+</style>
+
+<div class='container-fluid'>
+	<div class='row' id='solution_row'>
+			<div class='col-md-2 col-sm-3 well sidebar-nav-fixed' style='padding: 19px 0 !important;'>
+			<div class='span1'> <!--potreba prijit na to, proc se meni sirka a vyresit overlap pri mensim rozliseni--!>
+			<div class='row'>
+			<div class='col'>
+			<div class='cSize'>
+			<table>
+			<tr>
+				<td style='white-space: nowrap'>Počet rovnic: <span id='PrintSizeRows'>{{ A.row_num }}</span>&nbsp&nbsp</td>
+				<td>
+					<span class="btn-group-xs btn-group" role="group" aria-label="Velikost matice">
+						<button type="button" class="btn btn-primary" id='rowPlus'>+</button>
+						<button type="button" class="btn btn-primary" id='rowMinus'>-</button>
+					</span>
+				</td>
+				</tr>
+				<tr>
+				<td style='white-space: nowrap'>Počet proměnných: <span id='PrintSizeCols'>{{ A.col_num }}</span>&nbsp&nbsp</td>
+				<td>
+					<span class="btn-group-xs btn-group" role="group" aria-label="Velikost matice">
+						<button type="button" class="btn btn-primary" id='colPlus'>+</button>
+						<button type="button" class="btn btn-primary" id='colMinus'>-</button>
+					</span>
+				</td>
+			</tr>
+			</table>
+			</div>
+
+			</div>
+			</div>
+
+			<div class='row'>
+			<div class='col'>
+				<div class='input-group cInput' id='sidebar'>
+				<form action="{% url 'matrixolver:inv_solution' %}" method='POST' name='matrix'>{% csrf_token %}
+				<!--form validation--!>
+					<table class='table table-bordered table-condensed' id='InputTable'>
+					{% for row in A.rows %}
+						<tr>{% for element in row %}<td>
+				<input class='form-control' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' pattern='\d*' /></td>{% endfor %}</tr>
+					{% endfor %}
+					</table>
+					<input type='hidden'  id='hidden_rows' name='hidden_rows' value='{{ A.row_num }}' />
+					<input type='hidden' id='hidden_cols' name='hidden_cols' value='{{ A.col_num }}' />
+					<button type="submit" class='btn btn-primary'>Vyřešit soustavu</button>
+				</form>
+				</div>
+			</div>
+			</div>
+			</div>
+		</div>
+
+<script>
+	$( '#rowMinus' ).click(function(){
+															row_num -= 1;
+															createInputTable(row_num, col_num);
+															$( '#PrintSizeRows' ).html(row_num);
+															$( '#hidden_rows' ).val(row_num);}),
+
+	$( '#rowPlus' ).click(function(){
+															row_num += 1;
+															createInputTable(row_num, col_num);
+															$( '#PrintSizeRows' ).html(row_num);
+															$( '#hidden_rows' ).val(row_num);}),
+
+	$( '#colMinus' ).click(function(){
+															col_num -= 1;
+															createInputTable(row_num, col_num);
+															$( '#PrintSizeCols' ).html(col_num);
+															$( '#hidden_cols' ).val(col_num);}),
+
+	$( '#colPlus' ).click(function(){
+															col_num += 1;
+															createInputTable(row_num, col_num);
+															$( '#PrintSizeCols' ).html(col_num);
+															$( '#hidden_cols' ).val(col_num);})
+</script>
+
+<!-- reseni bude v include --!>
+{% include 'matrixolver/solution.html' %}
+	</div>
+</div>
+{% endblock content %}

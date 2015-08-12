@@ -12,7 +12,7 @@
 						<div class='cExtendedMatrix'>
 						<div class='panel panel-default cShrink'>
 							<div class='panel-body' name='extended_matrix_panel'>
-									<table class='cLeftMatrix' id='tl{{ forloop.counter0 }}'>
+									<table class='cSingleMatrix' id='tl{{ forloop.counter0 }}'>
 										{% for row in step.sol.rows %}
 												<tr class='{{ step.info|row_class:forloop.counter0 }}'>{% for element in row %}<td>{{ element }}</td>{% endfor %}</tr>
 										{% endfor %}

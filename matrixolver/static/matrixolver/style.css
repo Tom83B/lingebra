@@ -51,7 +51,7 @@ section {
 div.cSize {
 	padding: 20px;
 	padding-top: 0px;
-	width: 100px;
+	width: 100%;
 }
 
 /*class cInput*/
@@ -131,6 +131,33 @@ table.cRightMatrix {
 }
 
 table.cRightMatrix:after {
+	content: "";
+	position: absolute;
+	top: -5%;
+	border: 1px solid #000;
+	width: 6px;
+	height: 110%;
+	right: -2px;
+	border-left: 0;
+}
+
+/* class cSingleMatrix */
+table.cSingleMatrix {
+	float: left
+}
+
+table.cSingleMatrix:before {
+	content: "";
+	position: absolute;
+	top: -5%;
+	border: 1px solid #000;
+	width: 6px;
+	height: 110%;
+	left: -2px;
+	border-right: 0;
+}
+
+table.cSingleMatrix:after {
 	content: "";
 	position: absolute;
 	top: -5%;

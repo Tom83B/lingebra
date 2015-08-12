@@ -71,4 +71,8 @@ def rank_solution(request):
 			return render(request, 'matrixolver/rank.html', {'sol': result['sol'], 'A': A, 'rows': rows,})
 	return rank(request)
 
+def system(request):
+	A = Matrix.zeros(size=(3,3))
+	return render(request, 'matrixolver/syslineq.html', {'A': A,})
+
 # Create your views here.
