@@ -66,7 +66,6 @@ div.cInput input[type='text'] {
 	display: block !important;
 	padding: 0 !important;
 	margin: 0 !important;
-	border: 0 !important;
 	border-radius: 0 !important;
 	line-height: 1 !important;
 	text-align: center;
@@ -80,6 +79,15 @@ div.cInput td {
 }
 
 #InputTable { width: 100%; }
+
+input.cInput {
+	border: 0 !important;
+}
+
+input.cVecInput {
+	border: 0 !important;
+	border-left: 1px solid black !important;
+}
 
 /*
 #InputTable {display: block !important; padding: 0 !important; margin: 0 !important; border: 0 !important; width: 100% !important; border-radius: 0 !important; line-height: 1 !important;}

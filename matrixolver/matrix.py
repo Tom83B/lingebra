@@ -64,6 +64,11 @@ class Matrix(): #vyresit problem s float
 				X.upper_triang_steps()
 				return X.is_regular()	#ted by uz steps nemelo byt None
 
+	def col_split(self, col):	#col je sloupec, za kterym se to lame
+		rowsA = [ row[:col] for row in self.rows ]
+		rowsB = [ row[col:] for row in self.rows ]
+		return Matrix(rowsA), Matrix(rowsB)
+
 	def upper_triang_steps(self):
 		self.steps = []
 		self.piv_cols = []
@@ -153,11 +158,20 @@ class ExtendedMatrix:
 		if self.left.steps is None:
 			self.left.gauss_steps()
 		steps_info = [ step[1] for step in self.left.steps ]
-		messages = [ message(info) for info in steps_info ]+[{}]
+		messages = [ message(info) for info in steps_info ]+[{'cz': ''}]
 		solution = [copy.deepcopy(self)] + [ ExtendedMatrix(step[0](self.left), step[0](self.right)) for step in self.left.steps ]
 		keys = ['sol', 'info', 'message']
 		return_list = [ list(a) for a in zip(solution, steps_info+[[]], messages) ]	#prvek [[]] dodan, aby vse melo stejnou delku
 		return [dict(zip(keys, a)) for a in return_list]
+
+
+def join(A,B):
+	if A.row_num == B.row_num:
+		col_num = A.col_num + B.col_num
+		rows = [ rowA+rowB for (rowA,rowB) in zip(A.rows,B.rows) ]
+		return Matrix(rows)
+	else: raise TypeError('matice musi mit stejny pocet rad')
+
 
 A = Matrix([[1,0,0],[0,2,0],[0,0,3]])
 A.gauss_steps()

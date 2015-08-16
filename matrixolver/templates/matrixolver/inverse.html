@@ -54,7 +54,7 @@
 					<table class='table table-bordered table-condensed' id='InputTable'>
 					{% for row in A.rows %}
 						<tr>{% for element in row %}<td>
-				<input class='form-control' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' pattern='\d*' /></td>{% endfor %}</tr>
+				<input class='form-control cInput' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' pattern='\d*' /></td>{% endfor %}</tr>
 					{% endfor %}
 					</table>
 					<input type='hidden'  id='hidden_rows' name='hidden_rows' value='{{ A.row_num }}' />

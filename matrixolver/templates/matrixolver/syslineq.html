@@ -6,8 +6,8 @@
 	lis = $('ul.nav').find('li');
 	lis.removeClass('active');
 	$('#sys').addClass('active');
-	var row_num = {{ A.row_num }};
-	var col_num = {{ A.col_num }};
+	var row_num = {{ joined.row_num }};
+	var col_num = {{ joined.col_num }};
 </script>
 
 <style>
@@ -49,16 +49,21 @@
 			<div class='row'>
 			<div class='col'>
 				<div class='input-group cInput' id='sidebar'>
-				<form action="{% url 'matrixolver:inv_solution' %}" method='POST' name='matrix'>{% csrf_token %}
+				<form action="{% url 'matrixolver:system_solution' %}" method='POST' name='matrix'>{% csrf_token %}
 				<!--form validation--!>
 					<table class='table table-bordered table-condensed' id='InputTable'>
-					{% for row in A.rows %}
+					{% for row in joined.rows %}
 						<tr>{% for element in row %}<td>
-				<input class='form-control' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' pattern='\d*' /></td>{% endfor %}</tr>
+						{% if not forloop.last %}
+				<input class='form-control cInput' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' pattern='\d*' /></td>
+						{% else %}
+				<input class='form-control cVecInput' type='text' name='a{{ forloop.parentloop.counter0 }}{{ forloop.counter0 }}' onclick='select()' step='any' value='{{ element }}' autocomplete='off' pattern='\d*' /></td>
+						{% endif %}{% endfor %}
+						</tr>
 					{% endfor %}
 					</table>
-					<input type='hidden'  id='hidden_rows' name='hidden_rows' value='{{ A.row_num }}' />
-					<input type='hidden' id='hidden_cols' name='hidden_cols' value='{{ A.col_num }}' />
+					<input type='hidden'  id='hidden_rows' name='hidden_rows' value='{{ joined.row_num }}' />
+					<input type='hidden' id='hidden_cols' name='hidden_cols' value='{{ joined.col_num }}' />
 					<button type="submit" class='btn btn-primary'>Vyřešit soustavu</button>
 				</form>
 				</div>
@@ -70,25 +75,25 @@
 <script>
 	$( '#rowMinus' ).click(function(){
 															row_num -= 1;
-															createInputTable(row_num, col_num);
+															createSysInputTable(row_num, col_num);
 															$( '#PrintSizeRows' ).html(row_num);
 															$( '#hidden_rows' ).val(row_num);}),
 
 	$( '#rowPlus' ).click(function(){
 															row_num += 1;
-															createInputTable(row_num, col_num);
+															createSysInputTable(row_num, col_num);
 															$( '#PrintSizeRows' ).html(row_num);
 															$( '#hidden_rows' ).val(row_num);}),
 
 	$( '#colMinus' ).click(function(){
 															col_num -= 1;
-															createInputTable(row_num, col_num);
+															createSysInputTable(row_num, col_num);
 															$( '#PrintSizeCols' ).html(col_num);
 															$( '#hidden_cols' ).val(col_num);}),
 
 	$( '#colPlus' ).click(function(){
 															col_num += 1;
-															createInputTable(row_num, col_num);
+															createSysInputTable(row_num, col_num);
 															$( '#PrintSizeCols' ).html(col_num);
 															$( '#hidden_cols' ).val(col_num);})
 </script>

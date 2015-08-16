@@ -26,4 +26,12 @@ def rank_call(M):
 	for row in M.rows[::-1]:
 		if not all(val==0 for val in row): rank += 1
 	sol[-1]['message'] = {'cz': 'Hodnost matice je '+str(rank)}
-	return {'sol': sol}
+	return {'sol': sol, 'rank': rank}
+
+def solvesys_call(joined):
+	A, vec = joined.col_split(joined.col_num-1)
+	E = ExtendedMatrix(A,vec)
+	sol = E.gauss()		#nedefinuji ale nic k message, jelikoz posledni zustane prazdna
+	return {'sol': sol, 'A': A}
+
+#	asi by bylo cool zavest nejakou tridu Call a tohle by mohly byt jeji objekty nebo tak neco
