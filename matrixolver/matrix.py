@@ -7,7 +7,7 @@ from .messages import message
 class Matrix(): #vyresit problem s float
 	def __init__(self, rows=None, size=None):
 		self.regular = None
-		self.steps = None
+		self.steps = { 'upper_triang': None, 'gauss': None }
 		if rows is not None:
 			self.rows = rows
 			self.row_num = len(rows)
@@ -50,19 +50,23 @@ class Matrix(): #vyresit problem s float
 			return self.regular
 		else:
 			if self.row_num != self.col_num:
+				self.regular = {'val': False, 'why': 'not_square'}
 				return {'val': False, 'why': 'not_square'}
-			elif self.steps is not None:
+			elif self.steps['upper_triang'] is not None:
 				product = 1
 				X = copy.deepcopy(self)
-				for step in self.steps: step[0](X)
+				for step in self.steps['upper_triang']: step[0](X)
 				diagonal = [ X.rows[i][i] for i in range(0,X.row_num) ]
 				for element in diagonal: product *= element
-				if product == 0: return {'val': False, 'why': 'rank'}
-				else: return {'val': True, 'why': 'you are good to go!'}
+				if product == 0:
+					self.regular = {'val': False, 'why': 'rank'}
+					return {'val': False, 'why': 'rank'}
+				else:
+					self.regular = {'val': True, 'why': 'you are good to go!'}
+					return {'val': True, 'why': 'you are good to go!'}
 			else:
-				X = copy.deepcopy(self)	#nechci, aby mela matice steps not None a gauss byl pritom jen polovicni
-				X.upper_triang_steps()
-				return X.is_regular()	#ted by uz steps nemelo byt None
+				self.upper_triang_steps()
+				return self.is_regular()	#ted by uz steps nemelo byt None
 
 	def col_split(self, col):	#col je sloupec, za kterym se to lame
 		rowsA = [ row[:col] for row in self.rows ]
@@ -70,7 +74,7 @@ class Matrix(): #vyresit problem s float
 		return Matrix(rowsA), Matrix(rowsB)
 
 	def upper_triang_steps(self):
-		self.steps = []
+		self.steps['upper_triang'] = []
 		self.piv_cols = []
 		A = copy.deepcopy(self)
 		pivot = 0
@@ -90,14 +94,14 @@ class Matrix(): #vyresit problem s float
 						min_ind = j
 						A.swap_rows(j,i)
 						lambda_func = lambda M, i=i, j=j: M.swap_rows(i,j)
-						self.steps.append((lambda_func, ['swap', (i,j)]));
+						self.steps['upper_triang'].append((lambda_func, ['swap', (i,j)]));
 			
 			for j in range(i+1,A.row_num):
 				try:
 					mult = Fraction(A.rows[j][pivot],A.rows[i][pivot])
 					if mult!=0:
 						lambda_func = lambda M, i=i, j=j, mult=mult: M.substract_row(i,j,mult)
-						self.steps.append((lambda_func, ['subs', (mult, i, j)]))
+						self.steps['upper_triang'].append((lambda_func, ['subs', (mult, i, j)]))
 						A.substract_row(i,j,mult)
 				except IndexError:
 					break
@@ -107,9 +111,12 @@ class Matrix(): #vyresit problem s float
 			i += 1
 
 	def gauss_steps(self):
+		self.steps['gauss'] = []
 		A = copy.deepcopy(self)
-		self.upper_triang_steps()
-		for step in self.steps: step[0](A)
+		if self.steps['upper_triang'] is not None: self.upper_triang_steps()
+		for step in self.steps['upper_triang']:
+			step[0](A)
+			self.steps['gauss'].append(step)
 
 		for pivot in self.piv_cols[1:][::-1]:
 			pivot_col = [ A.rows[i][pivot] for i in range(0,A.row_num) ]	#numpy
@@ -119,7 +126,7 @@ class Matrix(): #vyresit problem s float
 						mult = Fraction(A.rows[j][pivot],A.rows[i][pivot])
 						if mult!=0:
 							lambda_func = lambda M, mult=mult, i=i, j=j: M.substract_row(i,j,mult)
-							self.steps.append((lambda_func, ['subs', (mult,i,j)]))	#radek i se odecita od j
+							self.steps['gauss'].append((lambda_func, ['subs', (mult,i,j)]))	#radek i se odecita od j
 							A.substract_row(i,j,mult)
 					break
 
@@ -136,9 +143,9 @@ class Matrix(): #vyresit problem s float
 					break	
 		A.multiply_rows(rows, mults)
 		func = lambda M, rows=rows, mults=mults: M.multiply_rows(rows,mults)
-		self.steps.append((func, ['mult', (rows, mults)]))
+		self.steps['gauss'].append((func, ['mult', (rows, mults)]))
 
-	def stairs(self):
+	def stairs(self):	#funkce dodana
 		M = self
 		M.upper_triang_steps()
 		steps_info = [ step[1] for step in M.steps ]

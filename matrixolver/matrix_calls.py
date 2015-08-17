@@ -40,5 +40,3 @@ def solvesys_call(joined):
 		sol = E.gauss()
 		error = 'frobenius'
 		return {'sol': sol, 'A': M, 'error': error}
-
-#	asi by bylo cool zavest nejakou tridu Call a tohle by mohly byt jeji objekty nebo tak neco
