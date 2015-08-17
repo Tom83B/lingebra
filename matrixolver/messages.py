@@ -35,8 +35,10 @@ def mult_message(info):
 #	zpravy, kdyz nastane problem
 #___________________________________________________
 
-irregular_message = {	'cz': 'Matice, jejíž inverzi chceš spočítat, není regulární. Neexistuje k ní tedy inverzní matice.' }
+irregular_message = { 'cz': 'Matice, jejíž inverzi chceš spočítat, není regulární. Neexistuje k ní tedy inverzní matice.' }
+frobenius_message = { 'cz': 'Dle Frobeniovy věty řešení této soustavy neexistuje' }
 
 def error_message(error):
-	return {	'irregular': irregular_message
+	return {	'irregular': irregular_message,
+			'frobenius': frobenius_message,
 	}[error]

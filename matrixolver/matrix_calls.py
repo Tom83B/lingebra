@@ -29,9 +29,16 @@ def rank_call(M):
 	return {'sol': sol, 'rank': rank}
 
 def solvesys_call(joined):
-	A, vec = joined.col_split(joined.col_num-1)
-	E = ExtendedMatrix(A,vec)
-	sol = E.gauss()		#nedefinuji ale nic k message, jelikoz posledni zustane prazdna
-	return {'sol': sol, 'A': A}
+	M, vec = joined.col_split(joined.col_num-1)
+	if rank_call(M)['rank']==rank_call(joined)['rank']:	#frobeniova veta - zda existuje reseni
+		E = ExtendedMatrix(A,vec)
+		sol = E.gauss()		#nedefinuji ale nic k message, jelikoz posledni zustane prazdna
+		return {'sol': sol, 'A': M}
+	else:
+		M.upper_triang_steps()
+		E = ExtendedMatrix(M,vec)
+		sol = E.gauss()
+		error = 'frobenius'
+		return {'sol': sol, 'A': M, 'error': error}
 
 #	asi by bylo cool zavest nejakou tridu Call a tohle by mohly byt jeji objekty nebo tak neco

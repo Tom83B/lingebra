@@ -139,7 +139,7 @@ class Matrix(): #vyresit problem s float
 		self.steps.append((func, ['mult', (rows, mults)]))
 
 	def stairs(self):
-		M = copy.deepcopy(self)
+		M = self
 		M.upper_triang_steps()
 		steps_info = [ step[1] for step in M.steps ]
 		messages = [ message(info) for info in steps_info ]+[{}]
