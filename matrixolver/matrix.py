@@ -113,7 +113,8 @@ class Matrix(): #vyresit problem s float
 	def gauss_steps(self):
 		self.steps['gauss'] = []
 		A = copy.deepcopy(self)
-		if self.steps['upper_triang'] is not None: self.upper_triang_steps()
+		if self.steps['upper_triang'] is None:
+			self.upper_triang_steps()
 		for step in self.steps['upper_triang']:
 			step[0](A)
 			self.steps['gauss'].append(step)
@@ -147,10 +148,11 @@ class Matrix(): #vyresit problem s float
 
 	def stairs(self):	#funkce dodana
 		M = self
-		M.upper_triang_steps()
-		steps_info = [ step[1] for step in M.steps ]
+		if M.steps['upper_triang'] is None:
+			M.upper_triang_steps()
+		steps_info = [ step[1] for step in M.steps['upper_triang'] ]
 		messages = [ message(info) for info in steps_info ]+[{}]
-		solution = [copy.deepcopy(M)] + [ step[0](M) for step in M.steps ]
+		solution = [copy.deepcopy(M)] + [ step[0](M) for step in M.steps['upper_triang'] ]
 		keys = ['sol', 'info', 'message']
 		return_list = [ list(a) for a in zip(solution, steps_info+[[]], messages) ]	#prvek [[]] dodan, aby vse melo stejnou delku
 		return [dict(zip(keys, a)) for a in return_list]
@@ -162,11 +164,11 @@ class ExtendedMatrix:
 		self.right = copy.deepcopy(right)
 
 	def gauss(self):
-		if self.left.steps is None:
+		if self.left.steps['gauss'] is None:
 			self.left.gauss_steps()
-		steps_info = [ step[1] for step in self.left.steps ]
+		steps_info = [ step[1] for step in self.left.steps['gauss'] ]
 		messages = [ message(info) for info in steps_info ]+[{'cz': ''}]
-		solution = [copy.deepcopy(self)] + [ ExtendedMatrix(step[0](self.left), step[0](self.right)) for step in self.left.steps ]
+		solution = [copy.deepcopy(self)] + [ ExtendedMatrix(step[0](self.left), step[0](self.right)) for step in self.left.steps['gauss'] ]
 		keys = ['sol', 'info', 'message']
 		return_list = [ list(a) for a in zip(solution, steps_info+[[]], messages) ]	#prvek [[]] dodan, aby vse melo stejnou delku
 		return [dict(zip(keys, a)) for a in return_list]
