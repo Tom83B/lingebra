@@ -232,6 +232,15 @@ div.cExtendedMatrix table {
 	margin: 0px;
 }
 
+div.cParams table {
+	float: left;
+}
+
+div.cParams td {
+	text-align: right;
+	font-size: 20px;
+}
+
 div.cShrink {
 	display: inline-block;
 }

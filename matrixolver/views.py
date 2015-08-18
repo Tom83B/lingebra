@@ -88,8 +88,9 @@ def system_solution(request):
 				rows[i].append( Fraction(request.POST.get(cell_name, 0.)) )
 		joined = Matrix(rows)
 		result = solvesys_call(joined)
-		if 'param_tables' in result:
-			return render(request, 'matrixolver/syslineq.html', {'sol': result['sol'], 'joined': joined, 'A': result['A'], 'rows': rows, 'param_tables': result['param_tables'],})
+		if 'param_tables' in result and 'params' in result:
+			A = result['A']
+			return render(request, 'matrixolver/syslineq.html', {'sol': result['sol'], 'joined': joined, 'A': A, 'dim': A.col_num, 'rank': A.rank(), 'param_tables': result['param_tables'], 'params': result['params']})
 		else:
 			return render(request, 'matrixolver/syslineq.html', {'sol': result['sol'], 'joined': joined, 'A': result['A'], 'rows': rows,})
 	else: return system(request)

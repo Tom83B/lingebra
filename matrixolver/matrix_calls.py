@@ -68,7 +68,7 @@ def solvesys_call(joined):
 						print_arr[1][-1].append(sign+str(value)+param_dict[param_cols[j]] if abs(value)!=1 else sign+param_dict[param_cols[j]])
 					else:
 						print_arr[1][-1].append('')
-			return {'sol': sol, 'A': M, 'param_tables': print_arr}
+			return {'sol': sol, 'A': M, 'param_tables': print_arr, 'params': {'num': len(param_cols), 'list': param_list[:len(param_cols)]}}
 		else:
 			return {'sol': sol, 'A': M}
 	else:

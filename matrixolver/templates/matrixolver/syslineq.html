@@ -99,10 +99,13 @@
 </script>
 
 <!-- reseni bude v include --!>
+<div class='col-md-10 col-sm-9' style='padding-right: 0 !important;'>
 {% include 'matrixolver/solution.html' %}
 
 {% if param_tables %}
-	<table>
+Jsme na prostoru dimenze {{ dim }} (počet sloupců matice). Vyšlo ale, že hodnost matice je pouze {{ rank }}. Proto byly zavedeny {{ params.num }} parametry {% for param in params.list %}{{ param }}, {% endfor %}, pomocí nichž je řešení soustavy vyjádřeno.
+<div class='cParams'>
+	<table style='margin-right: 30px'>
 	{% for row in param_tables.0 %}
 		<tr>
 			{% for element in row %} <td>{{ element }}</td> {% endfor %}
@@ -116,7 +119,9 @@
 		</tr>
 	{% endfor %}
 	</table>
+</div>
 {% endif %}
+</div>
 
 	</div>
 
