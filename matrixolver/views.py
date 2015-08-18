@@ -64,7 +64,6 @@ def rank_solution(request):
 		A = Matrix(rows)
 		result = rank_call(A)
 		if 'error' in result:
-			print(result['error'])
 			error_message = messages.error_message(result['error'])
 			return render(request, 'matrixolver/rank.html', {'sol': result['sol'], 'A': A, 'rows': rows, 'error': error_message['cz'],})
 		else:
@@ -89,10 +88,8 @@ def system_solution(request):
 				rows[i].append( Fraction(request.POST.get(cell_name, 0.)) )
 		joined = Matrix(rows)
 		result = solvesys_call(joined)
-		if 'error' in result:
-			print(result['error'])
-			error_message = messages.error_message(result['error'])
-			return render(request, 'matrixolver/syslineq.html', {'sol': result['sol'], 'joined': joined, 'A': result['A'], 'rows': rows, 'error': error_message['cz'],})
+		if 'param_tables' in result:
+			return render(request, 'matrixolver/syslineq.html', {'sol': result['sol'], 'joined': joined, 'A': result['A'], 'rows': rows, 'param_tables': result['param_tables'],})
 		else:
 			return render(request, 'matrixolver/syslineq.html', {'sol': result['sol'], 'joined': joined, 'A': result['A'], 'rows': rows,})
 	else: return system(request)

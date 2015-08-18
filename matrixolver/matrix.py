@@ -68,6 +68,18 @@ class Matrix(): #vyresit problem s float
 				self.upper_triang_steps()
 				return self.is_regular()	#ted by uz steps nemelo byt None
 
+	def rank(self):
+		if self.steps['upper_triang'] is not None:
+			r = 0
+			X = copy.deepcopy(self)
+			for step in self.steps['upper_triang']: step[0](X)
+			for row in X.rows[::-1]:
+				if not all(val==0 for val in row): r += 1
+			return r
+		else:
+			self.upper_triang_steps()
+			return self.rank()
+
 	def col_split(self, col):	#col je sloupec, za kterym se to lame
 		rowsA = [ row[:col] for row in self.rows ]
 		rowsB = [ row[col:] for row in self.rows ]
@@ -163,12 +175,12 @@ class ExtendedMatrix:
 		self.left = copy.deepcopy(left)
 		self.right = copy.deepcopy(right)
 
-	def gauss(self):
-		if self.left.steps['gauss'] is None:
+	def gauss(self, step_type='gauss'):
+		if self.left.steps[step_type] is None:
 			self.left.gauss_steps()
-		steps_info = [ step[1] for step in self.left.steps['gauss'] ]
+		steps_info = [ step[1] for step in self.left.steps[step_type] ]
 		messages = [ message(info) for info in steps_info ]+[{'cz': ''}]
-		solution = [copy.deepcopy(self)] + [ ExtendedMatrix(step[0](self.left), step[0](self.right)) for step in self.left.steps['gauss'] ]
+		solution = [copy.deepcopy(self)] + [ ExtendedMatrix(step[0](self.left), step[0](self.right)) for step in self.left.steps[step_type] ]
 		keys = ['sol', 'info', 'message']
 		return_list = [ list(a) for a in zip(solution, steps_info+[[]], messages) ]	#prvek [[]] dodan, aby vse melo stejnou delku
 		return [dict(zip(keys, a)) for a in return_list]

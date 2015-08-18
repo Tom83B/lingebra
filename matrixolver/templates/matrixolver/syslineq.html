@@ -6,8 +6,8 @@
 	lis = $('ul.nav').find('li');
 	lis.removeClass('active');
 	$('#sys').addClass('active');
-	var row_num = {{ joined.row_num }};
-	var col_num = {{ joined.col_num }};
+	var row_num = {{ A.row_num }};
+	var col_num = {{ A.col_num }};
 </script>
 
 <style>
@@ -100,6 +100,23 @@
 
 <!-- reseni bude v include --!>
 {% include 'matrixolver/solution.html' %}
+
+{% if param_tables %}
+	<table>
+	{% for row in param_tables.0 %}
+		<tr>
+			{% for element in row %} <td>{{ element }}</td> {% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+	<table>
+	{% for row in param_tables.1 %}
+		<tr>
+			{% for element in row %} <td>{{ element }}</td> {% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+{% endif %}
 
 	</div>
 
