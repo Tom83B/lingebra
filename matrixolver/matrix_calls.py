@@ -1,3 +1,4 @@
+#coding: utf8
 from .matrix import Matrix, ExtendedMatrix
 import pdb
 

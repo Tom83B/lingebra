@@ -1,3 +1,4 @@
+#coding: utf8
 import pdb
 
 #swap - (i,j)
